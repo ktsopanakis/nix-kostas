@@ -57,7 +57,9 @@
   # VS Code with external configuration
   programs.vscode = {
     enable = true;
-    extensions = import ./vscode/extensions.nix { inherit pkgs; };
+    profiles.default = {
+      extensions = import ./vscode/extensions.nix { inherit pkgs; };
+    };
   };
 
   # Shell aliases for convenience
@@ -80,7 +82,7 @@
     source = ./waybar/config.jsonc;
     force = true;
   };
-  
+
   xdg.configFile."waybar/style.css" = {
     source = ./waybar/style.css;
     force = true;
