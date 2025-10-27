@@ -25,6 +25,9 @@
     lazydocker
     lazygit
     vscode  # Keep VS Code available while programs.vscode is configured
+    # Fonts
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
   ];
 
   # Chromium with proper Wayland flags
@@ -49,8 +52,23 @@
     enable = true;
     settings = {
       font = {
-        normal.family = "JetBrainsMono Nerd Font";
+        normal = {
+          family = "FiraCode Nerd Font";
+          style = "Regular";
+        };
+        bold = {
+          family = "FiraCode Nerd Font";
+          style = "Bold";
+        };
+        italic = {
+          family = "FiraCode Nerd Font";
+          style = "Italic";
+        };
         size = 11.0;
+        offset = {
+          x = 0;
+          y = 1;
+        };
       };
       window = {
         opacity = 0.95;
