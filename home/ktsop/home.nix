@@ -17,6 +17,14 @@
     networkmanagerapplet
     wlogout
     xfce.thunar
+    # Additional applications
+    firefox
+    brave
+    btop
+    signal-desktop
+    docker
+    lazydocker
+    lazygit
   ];
 
   # Chromium with proper Wayland flags
@@ -28,6 +36,12 @@
       "--enable-wayland-ime"
       "--gtk-version=4"
     ];
+  };
+
+  # Firefox with Wayland support
+  programs.firefox = {
+    enable = true;
+    package = pkgs.firefox-wayland;
   };
 
   # Kitty terminal

@@ -52,11 +52,11 @@
     variant = "";
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.ktsop = {
     isNormalUser = true;
     description = "Kostas Tsopanakis";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
   };
 
@@ -117,6 +117,9 @@
   };
 
   services.seatd.enable = true;
+
+  # Docker support
+  virtualisation.docker.enable = true;
 
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
