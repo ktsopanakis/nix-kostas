@@ -16,10 +16,10 @@
       extra-experimental-features = [ "nix-command" "flakes" ];
     };
 
-    nixosConfigurations.draven = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
-        ./hosts/draven/configuration.nix
+        ./hosts/nixos/configuration.nix
 
         # Home Manager as a NixOS module
         home-manager.nixosModules.home-manager

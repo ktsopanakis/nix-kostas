@@ -1,131 +1,94 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.resumeDevice = "/dev/disk/by-uuid/10b41a0b-83a3-4a90-9ded-9bc24e8d1989";
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Athens";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "el_GR.UTF-8";
-    LC_IDENTIFICATION = "el_GR.UTF-8";
-    LC_MEASUREMENT = "el_GR.UTF-8";
-    LC_MONETARY = "el_GR.UTF-8";
-    LC_NAME = "el_GR.UTF-8";
-    LC_NUMERIC = "el_GR.UTF-8";
-    LC_PAPER = "el_GR.UTF-8";
-    LC_TELEPHONE = "el_GR.UTF-8";
-    LC_TIME = "el_GR.UTF-8";
-  };
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ktsop = {
-    isNormalUser = true;
-    description = "Kostas Tsopanakis";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
-
-  # Enable automatic login for the user.
-  services.getty.autologinUser = "ktsop";
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-    hyprland
-    waybar
-    rofi
-    wofi
-    alacritty
-    grim slurm wl-clipboard
-    xdg-desktop-portal-wlr
-    vscode
-    wget
-    chromium
-    git
-    gh
+  imports = [
+    ./hardware-configuration.nix
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
-  # List services that you want to enable:
+  # Time & locale
+  time.timeZone = "Europe/Athens";
+  i18n.defaultLocale = "en_US.UTF-8";
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
-
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
+  # Flakes + nix tweaks
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    auto-optimise-store = true;
   };
 
-  services.seatd.enable = true;
+  # User
+  users.users.ktsop = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "audio" "video" "input" "networkmanager" ];
+    shell = pkgs.zsh;
+  };
+  programs.zsh.enable = true;
 
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+  # Networking
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
 
-  services.logind.extraConfig = ''
-    HandlePowerKey=hibernate
-    HandleLidSwitch=hibernate
-    HandleLidSwitchDocked=ignore
-  '';
+  # Graphics (AMD + Intel iGPU work fine with Mesa)
+  services.xserver.enable = false; # Wayland only
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [ vaapiVdpau libva libvdpau-va-gl ];
+  };
 
+  # Sound / media
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+    wireplumber.enable = true;
+  };
+
+  # Portals (for screenshots, screen share, etc.)
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
+  # Hyprland executable in system (HM will configure it)
+  programs.hyprland.enable = true;
+
+  # Login manager (tuigreet on greetd for Wayland)
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        user = "greeter";
+      };
+    };
+  };
+
+  # Power & laptop niceties (okay on desktop too)
+  services.power-profiles-daemon.enable = true;
+
+  # Packages available system-wide
+  environment.systemPackages = with pkgs; [
+    git
+    curl
+    wget
+    vim
+    fastfetch
+    # For Wayland convenience
+    wl-clipboard grim slurp swappy
+    # Fonts (nice defaults)
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
+  ];
+
+  # Allow proprietary if you need e.g. codecs or Steam later
+  nixpkgs.config.allowUnfree = true;
+
+  # Sane default ulimits (Wayland/Hyprland sometimes benefit)
+  security.pam.loginLimits = [
+    { domain = "*"; type = "soft"; item = "nofile"; value = "1048576"; }
+    { domain = "*"; type = "hard"; item = "nofile"; value = "1048576"; }
+  ];
+
+  system.stateVersion = "25.05";  # set to your installed release
 }
