@@ -29,8 +29,14 @@
     };
   };
 
+  # Shell aliases for convenience
+  home.shellAliases = {
+    rebuild = "sudo nixos-rebuild switch --flake /home/ktsop/Projects/ktsopanakis/nix-kostas";
+    rebuild-test = "sudo nixos-rebuild test --flake /home/ktsop/Projects/ktsopanakis/nix-kostas";
+  };
+
   # Config files from this repo
   xdg.configFile."waybar/config".source = ./waybar/config.jsonc;
   xdg.configFile."waybar/style.css".source = ./waybar/style.css;
-  xdg.configFile."hypr/hyprland.conf".source = ../../default/hyprland.conf;
+  xdg.configFile."hypr/hyprland.conf".source = ./hyprland/hyprland.conf;
 }
