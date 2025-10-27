@@ -54,46 +54,10 @@
     enable = true;
   };
 
-  # VS Code with extensions and settings
+  # VS Code with external configuration
   programs.vscode = {
     enable = true;
-    profiles.default = {
-      extensions = with pkgs.vscode-extensions; [
-        # Language support
-        ms-python.python
-        ms-vscode.cpptools
-        rust-lang.rust-analyzer
-        golang.go
-        
-        # Nix support
-        bbenoist.nix
-        
-        # Git integration
-        eamodio.gitlens
-        
-        # Themes and UI
-        catppuccin.catppuccin-vsc
-        pkief.material-icon-theme
-        
-        # Productivity
-        ms-vscode.live-server
-        esbenp.prettier-vscode
-        bradlc.vscode-tailwindcss
-      ];
-      userSettings = {
-        "editor.fontSize" = 14;
-        "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'Droid Sans Mono', 'monospace'";
-        "editor.tabSize" = 2;
-        "editor.insertSpaces" = true;
-        "editor.minimap.enabled" = false;
-        "workbench.colorTheme" = "Catppuccin Mocha";
-        "workbench.iconTheme" = "material-icon-theme";
-        "terminal.integrated.fontSize" = 13;
-        "terminal.integrated.fontFamily" = "JetBrainsMono Nerd Font";
-        "git.enableSmartCommit" = true;
-        "git.confirmSync" = false;
-      };
-    };
+    extensions = import ./vscode/extensions.nix { inherit pkgs; };
   };
 
   # Shell aliases for convenience
@@ -104,6 +68,11 @@
 
   xdg.configFile."alacritty/alacritty.toml" = {
     source = ./alacritty/alacritty.toml;
+    force = true;
+  };
+
+  xdg.configFile."Code/User/settings.json" = {
+    source = ./vscode/settings.json;
     force = true;
   };
 
