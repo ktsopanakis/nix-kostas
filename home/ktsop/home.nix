@@ -43,9 +43,6 @@
     enable = true;
   };
 
-  wayland.windowManager.hyprland.settings = {
-  
-
   # Firefox with Wayland support
   programs.firefox = {
     enable = true;
@@ -149,15 +146,16 @@
     rebuild-test = "sudo nixos-rebuild test --flake /home/ktsop/Projects/ktsopanakis/nix-kostas";
   };
 
-
   xdg.configFile."waybar/config" = {
-    source =  ./waybar/config.jsonc;
+    source = ./waybar/config.jsonc;
     force = true;
   };
+
   xdg.configFile."waybar/style.css" = {
     source = ./waybar/style.css;
     force = true;
   };
+
   xdg.configFile."hypr/hyprland.conf" = {
     source = ./hyprland/hyprland.conf;
     force = true;
@@ -172,4 +170,4 @@
     source = ./wofi/style.css;
     force = true;
   };
-};
+}
