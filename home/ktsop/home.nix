@@ -49,53 +49,9 @@
     package = pkgs.firefox-wayland;
   };
 
-  # Alacritty terminal with configuration
+  # Alacritty terminal with external configuration
   programs.alacritty = {
     enable = true;
-    settings = {
-      font = {
-        normal = {
-          family = "FiraCode Nerd Font";
-          style = "Regular";
-        };
-        bold = {
-          family = "FiraCode Nerd Font";
-          style = "Bold";
-        };
-        italic = {
-          family = "FiraCode Nerd Font";
-          style = "Italic";
-        };
-        size = 11.0;
-        offset = {
-          x = 0;
-          y = 1;
-        };
-      };
-      window = {
-        opacity = 0.95;
-        padding = {
-          x = 10;
-          y = 10;
-        };
-      };
-      colors = {
-        primary = {
-          background = "#1e1e2e";
-          foreground = "#cdd6f4";
-        };
-        normal = {
-          black = "#45475a";
-          red = "#f38ba8";
-          green = "#a6e3a1";
-          yellow = "#f9e2af";
-          blue = "#89b4fa";
-          magenta = "#f5c2e7";
-          cyan = "#94e2d5";
-          white = "#bac2de";
-        };
-      };
-    };
   };
 
   # VS Code with extensions and settings
@@ -146,11 +102,16 @@
     rebuild-test = "sudo nixos-rebuild test --flake /home/ktsop/Projects/ktsopanakis/nix-kostas";
   };
 
+  xdg.configFile."alacritty/alacritty.toml" = {
+    source = ./alacritty/alacritty.toml;
+    force = true;
+  };
+
   xdg.configFile."waybar/config" = {
     source = ./waybar/config.jsonc;
     force = true;
   };
-
+  
   xdg.configFile."waybar/style.css" = {
     source = ./waybar/style.css;
     force = true;
@@ -159,9 +120,7 @@
   xdg.configFile."hypr/hyprland.conf" = {
     source = ./hyprland/hyprland.conf;
     force = true;
-  };
-
-  xdg.configFile."wofi/config" = {
+  };  xdg.configFile."wofi/config" = {
     source = ./wofi/config;
     force = true;
   };
