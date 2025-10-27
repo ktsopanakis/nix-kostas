@@ -1,0 +1,7 @@
+* { font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", monospace; font-size: 12px; }
+window { background: rgba(18,18,20,0.7); }
+#workspaces button { padding: 0 8px; margin: 0 4px; border-radius: 8px; }
+#workspaces button.active { background: #88c0d0; color: #1b1d20; }
+#clock, #cpu, #memory, #temperature, #pulseaudio, #network, #battery, #tray, #window {
+  padding: 0 10px; margin: 0 4px; border-radius: 8px; background: rgba(255,255,255,0.06);
+}
