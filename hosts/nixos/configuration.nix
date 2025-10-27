@@ -6,9 +6,10 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+      [ # Include the results of the hardware scan.
+        ./hardware-configuration.nix
+        (import (builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz") { config = { }; pkgs = pkgs; })
+      ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
