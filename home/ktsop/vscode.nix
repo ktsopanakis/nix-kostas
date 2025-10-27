@@ -3,40 +3,39 @@
 {
   programs.vscode = {
     enable = true;
-    enableUpdateCheck = false;
-    enableExtensionUpdateCheck = false;
-    
-    # Use system VS Code with Home Manager profiles
     package = pkgs.vscode;
     
-    # Extensions
-    extensions = with pkgs.vscode-extensions; [
-      # Language support
-      ms-python.python
-      ms-vscode.cpptools
-      rust-lang.rust-analyzer
-      bradlc.vscode-tailwindcss
-      ms-vscode.vscode-typescript-next
+    profiles.default = {
+      enableUpdateCheck = false;
+      enableExtensionUpdateCheck = false;
       
-      # Git
-      eamodio.gitlens
+      # Extensions
+      extensions = with pkgs.vscode-extensions; [
+        # Language support
+        ms-python.python
+        ms-vscode.cpptools
+        rust-lang.rust-analyzer
+        bradlc.vscode-tailwindcss
+        
+        # Git
+        eamodio.gitlens
+        
+        # Themes
+        catppuccin.catppuccin-vsc
+        pkief.material-icon-theme
+        
+        # Utilities
+        ms-vsliveshare.vsliveshare
+        ms-vscode-remote.remote-ssh
+        ms-azuretools.vscode-docker
+        
+        # Nix support
+        bbenoist.nix
+        jnoortheen.nix-ide
+      ];
       
-      # Themes
-      catppuccin.catppuccin-vsc
-      pkief.material-icon-theme
-      
-      # Utilities
-      ms-vsliveshare.vsliveshare
-      ms-vscode-remote.remote-ssh
-      ms-azuretools.vscode-docker
-      
-      # Nix support
-      bbenoist.nix
-      jnoortheen.nix-ide
-    ];
-    
-    # User settings
-    userSettings = {
+      # User settings
+      userSettings = {
       "workbench.colorTheme" = "Catppuccin Mocha";
       "workbench.iconTheme" = "material-icon-theme";
       "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'Droid Sans Mono', 'monospace'";
@@ -95,18 +94,19 @@
       # Telemetry
       "telemetry.telemetryLevel" = "off";
       "update.showReleaseNotes" = false;
+      };
+      
+      # Keybindings
+      keybindings = [
+        {
+          "key" = "ctrl+shift+t";
+          "command" = "workbench.action.terminal.new";
+        }
+        {
+          "key" = "ctrl+shift+`";
+          "command" = "workbench.action.terminal.toggleTerminal";
+        }
+      ];
     };
-    
-    # Keybindings
-    keybindings = [
-      {
-        "key" = "ctrl+shift+t";
-        "command" = "workbench.action.terminal.new";
-      }
-      {
-        "key" = "ctrl+shift+`";
-        "command" = "workbench.action.terminal.toggleTerminal";
-      }
-    ];
   };
 }
