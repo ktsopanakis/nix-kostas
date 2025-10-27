@@ -78,7 +78,6 @@
     alacritty
     grim slurm wl-clipboard
     xdg-desktop-portal-wlr
-    vscode
     wget
     git
     gh

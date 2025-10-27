@@ -9,7 +9,6 @@
 
   # Basic packages
   home.packages = with pkgs; [
-    kitty
     wofi
     waybar
     pavucontrol
@@ -25,6 +24,7 @@
     docker
     lazydocker
     lazygit
+    vscode  # Keep VS Code available while programs.vscode is configured
   ];
 
   # Chromium with proper Wayland flags
@@ -44,13 +44,79 @@
     package = pkgs.firefox-wayland;
   };
 
-  # Kitty terminal
-  programs.kitty = {
+  # Alacritty terminal with configuration
+  programs.alacritty = {
     enable = true;
     settings = {
-      font_family = "JetBrainsMono Nerd Font";
-      font_size = "11.0";
-      confirm_os_window_close = 0;
+      font = {
+        normal.family = "JetBrainsMono Nerd Font";
+        size = 11.0;
+      };
+      window = {
+        opacity = 0.95;
+        padding = {
+          x = 10;
+          y = 10;
+        };
+      };
+      colors = {
+        primary = {
+          background = "#1e1e2e";
+          foreground = "#cdd6f4";
+        };
+        normal = {
+          black = "#45475a";
+          red = "#f38ba8";
+          green = "#a6e3a1";
+          yellow = "#f9e2af";
+          blue = "#89b4fa";
+          magenta = "#f5c2e7";
+          cyan = "#94e2d5";
+          white = "#bac2de";
+        };
+      };
+    };
+  };
+
+  # VS Code with extensions and settings
+  programs.vscode = {
+    enable = true;
+    profiles.default = {
+      extensions = with pkgs.vscode-extensions; [
+        # Language support
+        ms-python.python
+        ms-vscode.cpptools
+        rust-lang.rust-analyzer
+        golang.go
+        
+        # Nix support
+        bbenoist.nix
+        
+        # Git integration
+        eamodio.gitlens
+        
+        # Themes and UI
+        catppuccin.catppuccin-vsc
+        pkief.material-icon-theme
+        
+        # Productivity
+        ms-vscode.live-server
+        esbenp.prettier-vscode
+        bradlc.vscode-tailwindcss
+      ];
+      userSettings = {
+        "editor.fontSize" = 14;
+        "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'Droid Sans Mono', 'monospace'";
+        "editor.tabSize" = 2;
+        "editor.insertSpaces" = true;
+        "editor.minimap.enabled" = false;
+        "workbench.colorTheme" = "Catppuccin Mocha";
+        "workbench.iconTheme" = "material-icon-theme";
+        "terminal.integrated.fontSize" = 13;
+        "terminal.integrated.fontFamily" = "JetBrainsMono Nerd Font";
+        "git.enableSmartCommit" = true;
+        "git.confirmSync" = false;
+      };
     };
   };
 
