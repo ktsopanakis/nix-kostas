@@ -38,5 +38,8 @@
   # Config files from this repo
   xdg.configFile."waybar/config".source = ./waybar/config.jsonc;
   xdg.configFile."waybar/style.css".source = ./waybar/style.css;
-  xdg.configFile."hypr/hyprland.conf".source = ./hyprland/hyprland.conf;
+  xdg.configFile."hypr/hyprland.conf" = {
+    source = ./hyprland/hyprland.conf;
+    force = true;  # Allow overwriting existing file
+  };
 }
