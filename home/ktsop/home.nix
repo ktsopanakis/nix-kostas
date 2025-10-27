@@ -27,6 +27,10 @@
     lazygit
     vscode  # Keep VS Code available while programs.vscode is configured
     rustdesk  # Remote desktop software
+    # Wallpaper tools
+    swww  # Wayland wallpaper daemon
+    wget  # For downloading wallpapers
+    curl  # Alternative download tool
     xorg.xhost  # X11 forwarding support
     wl-clipboard  # Wayland clipboard utilities
     # Fonts
