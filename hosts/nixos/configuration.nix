@@ -80,7 +80,6 @@
     xdg-desktop-portal-wlr
     vscode
     wget
-    chromium
     git
     gh
   ];

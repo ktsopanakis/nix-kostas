@@ -19,6 +19,17 @@
     xfce.thunar
   ];
 
+  # Chromium with proper Wayland flags
+  programs.chromium = {
+    enable = true;
+    commandLineArgs = [
+      "--enable-features=UseOzonePlatform"
+      "--ozone-platform=wayland"
+      "--enable-wayland-ime"
+      "--gtk-version=4"
+    ];
+  };
+
   # Kitty terminal
   programs.kitty = {
     enable = true;
