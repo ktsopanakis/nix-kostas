@@ -1,7 +1,29 @@
-* { font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", monospace; font-size: 12px; }
-window { background: rgba(18,18,20,0.7); }
-#workspaces button { padding: 0 8px; margin: 0 4px; border-radius: 8px; }
-#workspaces button.active { background: #88c0d0; color: #1b1d20; }
+* { 
+  font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", monospace; 
+  font-size: 12px; 
+  color: #ffffff; /* Make all text white by default */
+}
+
+window { 
+  background: rgba(18,18,20,0.7); 
+}
+
+#workspaces button { 
+  padding: 0 8px; 
+  margin: 0 4px; 
+  border-radius: 8px; 
+  color: #e5e5e5; /* Light grey for inactive workspaces */
+}
+
+#workspaces button.active { 
+  background: #88c0d0; 
+  color: #1b1d20; /* Dark text on light background */
+}
+
 #clock, #cpu, #memory, #temperature, #pulseaudio, #network, #battery, #tray, #window {
-  padding: 0 10px; margin: 0 4px; border-radius: 8px; background: rgba(255,255,255,0.06);
+  padding: 0 10px; 
+  margin: 0 4px; 
+  border-radius: 8px; 
+  background: rgba(255,255,255,0.06);
+  color: #ffffff; /* Bright white text for modules */
 }
