@@ -122,10 +122,10 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
 
-  services.logind.extraConfig = ''
-    HandlePowerKey=hibernate
-    HandleLidSwitch=hibernate
-    HandleLidSwitchDocked=ignore
-  '';
+  # services.logind.extraConfig = ''
+  #   HandlePowerKey=hibernate
+  #   HandleLidSwitch=hibernate
+  #   HandleLidSwitchDocked=ignore
+  # '';
 
 }
