@@ -12,14 +12,27 @@
     kitty
     wofi
     waybar
-    thunar
     pavucontrol
     brightnessctl
     networkmanagerapplet
     wlogout
     hyprpaper
     swww
+    kdePackages.dolphin
+    kdePackages.kio-extras
+    kdePackages.kde-cli-tools
+    kdePackages.kdialog
+    kdePackages.ark
+    kdePackages.ffmpegthumbs
+    kdePackages.kdegraphics-thumbnailers
   ];
+
+  xdg.mimeApps.defaultApplications = {
+    "inode/directory" = [ "org.kde.dolphin.desktop" ];
+    "application/x-directory" = [ "org.kde.dolphin.desktop" ];
+  };
+
+  home.sessionVariables.TERMINAL = "kitty";
 
   # Kitty as terminal
   programs.kitty = {
